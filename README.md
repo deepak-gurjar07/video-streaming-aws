@@ -86,11 +86,7 @@ PORT=your_preferred_port
 
 ### Video
 - **POST** `/api/video/upload`: Uploads a video with metadata and stores it in AWS S3 and DynamoDB.
-<<<<<<< HEAD
-- **GET** `/api/video`: Fetches all videos.
-=======
 - **GET** `/api/video/videos`: Fetches all videos.
->>>>>>> 088f32371ce112579c5c75b709ef7967b7d5f390
 - **GET** `/api/video/view/{videoId}`: Fetches video metadata from DynamoDB and generates a pre-signed URL to stream the video from AWS S3.
 - **GET** `/api/video/search`:Searches for videos by title, description, or author.
 - **GET** `/api/video/author/{email}`:Fetches all videos uploaded by a specific user.
