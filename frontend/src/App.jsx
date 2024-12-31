@@ -7,7 +7,7 @@ import Profile from './pages/Profile';
 import VideoPlayer from "./components/VideoPlayer";
 import Navbar from "./components/Navbar";
 import SearchResults from "./components/SearchResults";
-import Upload from "./pages/Upload"; // Import the Upload component
+import Upload from "./pages/Upload"; 
 import "./App.css";
 
 const App = () => {

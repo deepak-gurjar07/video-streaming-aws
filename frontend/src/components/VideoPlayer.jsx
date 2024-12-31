@@ -5,7 +5,7 @@ import Card from 'react-bootstrap/Card';
 import Spinner from 'react-bootstrap/Spinner';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import './VideoPlayer.css'; // Import custom CSS file
+import './css/VideoPlayer.css'; 
 
 const VideoPlayer = () => {
   const { videoId } = useParams();

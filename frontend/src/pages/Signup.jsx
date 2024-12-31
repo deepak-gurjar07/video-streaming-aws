@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from '../api/axiosConfig';
-import './Auth.css'; // Import custom CSS file
+import './css/Auth.css'; 
 
 const Signup = () => {
   const [email, setEmail] = useState('');
@@ -15,14 +15,12 @@ const Signup = () => {
     try {
       const response = await axios.post('/auth/signup', { email, username, password });
       console.log('Signup successful:', response.data);
-      // Ensure response contains email and username
       if (response.data.email && response.data.username) {
-        // Save the token and user info in local storage
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('user', JSON.stringify({ email: response.data.email, username: response.data.username }));
         // Redirect to home page
         navigate('/');
-        window.location.reload(); // Reload the page to update the Navbar state
+        window.location.reload(); 
       } else {
         setError(error.response?.data?.error || 'An error occurred. Please try again.');
       }

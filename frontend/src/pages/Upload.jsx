@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from '../api/axiosConfig';
-import './Upload.css'; // Import custom CSS file
+import './css/Upload.css'; 
 
 const Upload = () => {
   const [title, setTitle] = useState('');
@@ -12,6 +12,8 @@ const Upload = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [email, setEmail] = useState('');
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [isUploading, setIsUploading] = useState(false);
 
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem('user'));
@@ -22,6 +24,7 @@ const Upload = () => {
 
   const handleUpload = async (e) => {
     e.preventDefault();
+    setIsUploading(true);
     const formData = new FormData();
     formData.append('title', title);
     formData.append('description', description);
@@ -29,21 +32,29 @@ const Upload = () => {
     formData.append('quality', quality);
     formData.append('video', videoFile);
     formData.append('thumbnail', thumbnailFile);
-    formData.append('email', email); // Include email in the form data
+    formData.append('email', email); 
 
     try {
       const response = await axios.post('/video/upload', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
+        onUploadProgress: (progressEvent) => {
+          const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+          setUploadProgress(percentCompleted);
+        },
       });
       console.log('Upload response:', response);
       setSuccess('Video and thumbnail uploaded successfully!');
       setError('');
+      setUploadProgress(0);
+      setIsUploading(false);
     } catch (error) {
       console.error('Error uploading video and thumbnail:', error);
       setError('Failed to upload video and thumbnail. Please try again.');
       setSuccess('');
+      setUploadProgress(0); 
+      setIsUploading(false);
     }
   };
 
@@ -112,9 +123,18 @@ const Upload = () => {
             required
           />
         </div>
+        {isUploading && (
+          <div className="progress-bar">
+            <div className="progress" style={{ width: `${uploadProgress}%` }}>
+              {uploadProgress}%
+            </div>
+          </div>
+        )}
         {error && <p className="error">{error}</p>}
         {success && <p className="success">{success}</p>}
-        <button type="submit">Upload</button>
+        <button type="submit" disabled={isUploading}>
+          {isUploading ? 'Please wait, your video is being uploaded...' : 'Upload'}
+        </button>
       </form>
     </div>
   );

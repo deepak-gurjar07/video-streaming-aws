@@ -27,7 +27,7 @@
 }
 
 .upload-container .form-group label {
-  width: 150px; /* Adjust the width as needed */
+  width: 150px;
   margin-right: 10px;
   text-align: right;
 }
@@ -57,6 +57,11 @@
   cursor: pointer;
 }
 
+.upload-container button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
 .upload-container .error {
   color: red;
   margin-bottom: 10px;
@@ -65,4 +70,20 @@
 .upload-container .success {
   color: green;
   margin-bottom: 10px;
+}
+
+.progress-bar {
+  width: 100%;
+  background-color: #f3f3f3;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-bottom: 15px;
+}
+
+.progress {
+  height: 20px;
+  background-color: #4caf50;
+  text-align: center;
+  line-height: 20px;
+  color: white;
 }

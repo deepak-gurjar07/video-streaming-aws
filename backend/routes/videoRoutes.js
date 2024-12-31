@@ -7,12 +7,12 @@ const multer = require('multer');
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
-// Video upload route
+// Video route
 router.post('/upload', upload.fields([{ name: 'video', maxCount: 1 }, { name: 'thumbnail', maxCount: 1 }]), uploadVideo);
 router.get("/view/:videoId", getVideoById);
 router.get("/videos", getAllVideos);
 router.get('/search', searchVideos);
-router.get('/author/:email', getVideosByAuthor); // New route for fetching videos by author
-router.delete('/:videoId', deleteVideo); // New route for deleting videos
+router.get('/author/:email', getVideosByAuthor); 
+router.delete('/:videoId', deleteVideo);
 
 module.exports = router;

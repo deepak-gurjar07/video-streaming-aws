@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from '../api/axiosConfig';
 import VideoCard from '../components/VideoCard';
-import './Profile.css'; // Import custom CSS file
+import './css/Profile.css'; 
 
 const Profile = () => {
   const [videos, setVideos] = useState([]);
@@ -28,7 +28,7 @@ const Profile = () => {
     if (!confirmDelete) {
       return;
     }
-    
+
     try {
       await axios.delete(`/video/${videoId}`, { data: { email: user.email } });
       setVideos(videos.filter(video => video.videoId !== videoId));
@@ -61,7 +61,6 @@ const Profile = () => {
         <h2>User Details</h2>
         <p><strong>Email:</strong> {user.email}</p>
         <p><strong>Username:</strong> {user.username}</p>
-        {/* Add more user details here if needed */}
       </div>
     </div>
   );

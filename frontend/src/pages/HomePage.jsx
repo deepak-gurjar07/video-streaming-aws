@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "../api/axiosConfig";
 import VideoCard from "../components/VideoCard";
-import './HomePage.css'; // Import custom CSS file
+import './css/HomePage.css'; 
 
 const HomePage = () => {
   const [videos, setVideos] = useState([]);
@@ -28,10 +28,11 @@ const HomePage = () => {
 
   return (
     <div className="homepage">
-      {/* <h1>Video Library</h1> */}
       <div className="video-grid">
         {videos.map((video) => (
+           <div key={video.videoId} className="video-card-container">
           <VideoCard key={video.videoId} video={video} />
+          </div>
         ))}
       </div>
     </div>

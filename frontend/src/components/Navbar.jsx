@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import './Navbar.css'; // Import custom CSS file
+import './css/Navbar.css'; 
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -27,7 +27,7 @@ const Navbar = () => {
     localStorage.removeItem('user');
     setUser(null);
     navigate("/");
-    window.location.reload(); // Reload the page to update the Navbar state
+    window.location.reload(); 
   };
 
   const handleSearch = () => {

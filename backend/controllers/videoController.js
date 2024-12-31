@@ -56,7 +56,7 @@ exports.uploadVideo = async (req, res) => {
         email: { S: email },
         videokey: { S: videoKey },
         thumbnailUrl: { S: thumbnailUrl },
-        quality: { S: quality || 'Unknown' }, // Handle absence of quality
+        quality: { S: quality || 'Unknown' }, 
         videoUrl: { S: videoUrl },
         uploadDate: { S: new Date().toISOString() },
       },

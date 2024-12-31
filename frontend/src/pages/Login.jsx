@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from '../api/axiosConfig';
-import './Auth.css'; // Import custom CSS file
+import './css/Auth.css'; 
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -17,9 +17,9 @@ const Login = () => {
       // Save the token or user info in local storage
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('user', JSON.stringify({ email: response.data.email, username: response.data.username }));
-      // Redirect to home page or dashboard after successful login
+      // Redirect to home page after successful login
       navigate('/');
-      window.location.reload(); // Reload the page to update the Navbar state
+      window.location.reload(); 
     } catch (error) {
       console.error('Error during login:', error);
       setError(error.response?.data?.error || 'An error occurred. Please try again.');

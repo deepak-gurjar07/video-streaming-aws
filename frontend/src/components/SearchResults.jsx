@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "../api/axiosConfig";
 import VideoCard from "../components/VideoCard";
-import "./SearchResults.css";
+import "./css/SearchResults.css";
 
 const SearchResults = () => {
   const [videos, setVideos] = useState([]);
