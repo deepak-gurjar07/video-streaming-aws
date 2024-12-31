@@ -1,7 +1,4 @@
-<<<<<<< HEAD
-=======
 ---
->>>>>>> 088f32371ce112579c5c75b709ef7967b7d5f390
 # Cloud-Based Video Streaming Service
 
 A cloud-based video streaming service that allows users to upload, view, and stream videos with metadata stored in AWS DynamoDB and video files stored in AWS S3. The project leverages the power of AWS services, including S3 for video storage, DynamoDB for metadata storage, and the AWS SDK for JavaScript (v3).
