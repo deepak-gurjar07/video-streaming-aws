@@ -1,0 +1,10 @@
+.homepage {
+  padding: 20px;
+}
+
+.video-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px; /* Add gap between video cards */
+}

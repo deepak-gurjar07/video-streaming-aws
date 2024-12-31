@@ -1,0 +1,22 @@
+.video-card {
+  margin: 15px;
+  transition: transform 0.2s;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+.video-thumbnail {
+  height: 180px; /* Fixed height for the thumbnail */
+  object-fit: cover;
+}
+
+.video-title {
+  font-size: 16px; /* Adjusted font size */
+  font-weight: bold;
+}
+
+.video-author,
+.video-quality {
+  font-size: 12px; /* Adjusted font size */
+  color: #555;
+}
