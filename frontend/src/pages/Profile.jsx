@@ -58,7 +58,7 @@ const Profile = () => {
         </div>
       </div>
       <div className="profile-right">
-        <h2>User Details</h2>
+        <h4>User Details</h4>
         <p><strong>Email:</strong> {user.email}</p>
         <p><strong>Username:</strong> {user.username}</p>
       </div>

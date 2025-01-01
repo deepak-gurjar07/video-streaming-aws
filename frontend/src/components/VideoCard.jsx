@@ -1,19 +1,24 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './css/VideoCard.css'; // Import custom CSS file
 
 const VideoCard = ({ video }) => {
   return (
-    <div className="video-card">
-      <Link to={`/video/view/${video.videoId}`}>
-        <img src={video.thumbnailUrl} alt={video.title} className="video-thumbnail" />
-      </Link>
-      <div className="video-info">
-        <div className="video-title">{video.title}</div>
-        <div className="video-author">by {video.author}</div>
-        <div className="video-quality">{video.quality}</div>
+    <Link className="group block no-underline" to={`/video/view/${video.videoId}`}>
+      <div className="relative">
+        <img className="rounded-lg aspect-video w-full object-cover" src={video.thumbnailUrl} alt={video.title} />
       </div>
-    </div>
+
+      <div className="flex gap-3 py-3 px-2">
+        <div>
+          <h2 className="group-hover:text-blue-500 font-semibold leading-snug line-clamp-2 text-base" title={video.title}>
+            {video.title}
+          </h2>
+          <p className="text-sm mt-1 text-neutral-700 hover:text-neutral-500">
+            {video.auther}
+          </p>
+        </div>
+      </div>
+    </Link>
   );
 };
 
