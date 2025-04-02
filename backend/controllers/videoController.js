@@ -247,3 +247,121 @@ exports.deleteVideo = async (req, res) => {
     res.status(500).json({ error: 'Failed to delete video' });
   }
 };
+
+exports.updateVideo = async (req, res) => {
+  try {
+    const { videoId, title, description, author, quality, email } = req.body;
+
+    // Fetch the current video details
+    const getParams = {
+      TableName: DYNAMODB_VIDEO_TABLE_NAME,
+      Key: {
+        videoId: { S: videoId },
+      },
+    };
+
+    const videoData = await dynamoDBClient.send(new GetItemCommand(getParams));
+
+    if (!videoData.Item) {
+      return res.status(404).json({ error: 'Video not found' });
+    }
+
+    // Check if the requesting user is the author of the video
+    if (videoData.Item.email.S !== email) {
+      return res.status(403).json({ error: 'You are not authorized to update this video' });
+    }
+
+    // Update the video metadata in DynamoDB
+    const updateParams = {
+      TableName: DYNAMODB_VIDEO_TABLE_NAME,
+      Item: {
+        ...videoData.Item,
+        title: { S: title || videoData.Item.title.S },
+        description: { S: description || videoData.Item.description.S },
+        author: { S: author || videoData.Item.author.S },
+        quality: { S: quality || videoData.Item.quality.S },
+      },
+    };
+
+    await dynamoDBClient.send(new PutItemCommand(updateParams));
+
+    res.status(200).json({ message: 'Video details updated successfully' });
+  } catch (error) {
+    console.error('Error updating video details:', error);
+    res.status(500).json({ error: 'Failed to update video details' });
+  }
+};
+
+exports.updateThumbnail = async (req, res) => {
+  try {
+    const { videoId, email } = req.body;
+    const thumbnailFile = req.file; // using multer for file upload
+
+    if (!thumbnailFile) {
+      return res.status(400).json({ error: 'Thumbnail file is required' });
+    }
+
+    // Fetch the current video details
+    const getParams = {
+      TableName: DYNAMODB_VIDEO_TABLE_NAME,
+      Key: {
+        videoId: { S: videoId },
+      },
+    };
+
+    const videoData = await dynamoDBClient.send(new GetItemCommand(getParams));
+
+    if (!videoData.Item) {
+      return res.status(404).json({ error: 'Video not found' });
+    }
+
+    // Check if the requesting user is the author of the video
+    if (videoData.Item.email.S !== email) {
+      return res.status(403).json({ error: 'You are not authorized to update this video' });
+    }
+
+    // Delete the old thumbnail from S3 if it exists
+    const oldThumbnailKey = videoData.Item.thumbnailUrl.S.split('/').pop();
+    const deleteOldThumbnailParams = {
+      Bucket: AWS_S3_BUCKET_NAME,
+      Key: oldThumbnailKey,
+    };
+
+    try {
+      await s3Client.send(new DeleteObjectCommand(deleteOldThumbnailParams));
+    } catch (error) {
+      console.warn('Warning: Could not delete old thumbnail:', error);
+      // Continue with the update even if the old thumbnail couldn't be deleted
+    }
+
+    // Generate a new thumbnail key
+    const thumbnailKey = `${videoId}-thumbnail-${Date.now()}${path.extname(thumbnailFile.originalname)}`;
+
+    // Upload the new thumbnail to S3
+    const uploadThumbnailParams = {
+      Bucket: AWS_S3_BUCKET_NAME,
+      Key: thumbnailKey,
+      Body: thumbnailFile.buffer,
+      ContentType: thumbnailFile.mimetype,
+    };
+
+    await s3Client.send(new PutObjectCommand(uploadThumbnailParams));
+
+    // Update the thumbnailUrl in the video metadata
+    const thumbnailUrl = `${CLOUDFRONT_DOMAIN}/${thumbnailKey}`;
+    const updateParams = {
+      TableName: DYNAMODB_VIDEO_TABLE_NAME,
+      Item: {
+        ...videoData.Item,
+        thumbnailUrl: { S: thumbnailUrl },
+      },
+    };
+
+    await dynamoDBClient.send(new PutItemCommand(updateParams));
+
+    res.status(200).json({ message: 'Thumbnail updated successfully', thumbnailUrl });
+  } catch (error) {
+    console.error('Error updating thumbnail:', error);
+    res.status(500).json({ error: 'Failed to update thumbnail' });
+  }
+};
