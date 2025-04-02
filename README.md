@@ -43,7 +43,7 @@ PORT=your_preferred_port
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/cloud-video-streaming.git
+   git clone https://github.com/deepak-gurjar07/video-streaming-aws
    cd cloud-video-streaming
    ```
 2. Navigate to the backend directory and install dependencies:
