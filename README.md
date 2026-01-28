@@ -22,7 +22,7 @@ A cloud-based video streaming service that allows users to upload, view, and str
 - **Content Delivery**: AWS CloudFront
 
 ## Prerequisites
-1. **AWS Account**: Set up AWS services like S3 and DynamoDB.
+1. **AWS Account**: Set up AWS services like S3, DynamoDB and Cluodfront.
 2. **Node.js**: Install Node.js and npm.
 
 ## Environment Variables
